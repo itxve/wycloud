@@ -2,7 +2,6 @@
   <meting-js id="1447279983" server="netease" type="song"> </meting-js>
   <div class="contianer" style="width: 90vw">
     <div class="audio">
-      <audio controls ref="audioRef"></audio>
       <el-button @click="() => fetchSongs()">刷新</el-button>
     </div>
     <el-table
@@ -46,15 +45,19 @@
 </template>
 
 <script lang="ts">
-import { onMounted, ref } from "vue";
-import { cloudList, cloudDetail, cloudDel } from "@/apis";
+import { onMounted, ref, defineExpose, inject, Ref } from "vue";
+import { cloudList, cloudDel } from "@/apis";
+import type { AudioPlayerExpose } from "@/components/AudioPlayer.vue";
 import { Songs } from "@/types";
+export type CloudList = {
+  fetchSongs: () => void;
+};
 </script>
 
 <script setup lang="ts">
 const songs = ref<Array<Songs>>();
-const audioRef = ref<HTMLAudioElement>();
 const listLoading = ref(false);
+const audioRef = inject<Ref<AudioPlayerExpose>>("play");
 
 const fetchSongs = () => {
   listLoading.value = true;
@@ -66,12 +69,7 @@ const fetchSongs = () => {
 };
 
 const playMusic = (songId: string) => {
-  cloudDetail(songId).then((data) => {
-    if (audioRef.value) {
-      audioRef.value.src = data;
-      audioRef.value.play();
-    }
-  });
+  audioRef?.value?.play(songId);
 };
 
 const delMusic = (songId: string) => {
@@ -79,6 +77,8 @@ const delMusic = (songId: string) => {
     fetchSongs();
   });
 };
+
+defineExpose({ fetchSongs });
 
 onMounted(() => {
   fetchSongs();

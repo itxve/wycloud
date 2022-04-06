@@ -23,7 +23,7 @@ const customUpload: UploadProps["httpRequest"] = ({ file }) => {
   return new Promise(async (s, r) => {
     const formData = new FormData();
     formData.append("songFile", file);
-    upload(formData, isDev.value, (evt) => {
+    upload(formData, (evt) => {
       let num = ((evt.loaded / evt.total) * 100) | 0;
       //更改进度
       files.value.some((it) => {
@@ -51,8 +51,6 @@ const customUpload: UploadProps["httpRequest"] = ({ file }) => {
 const delSong = (uid: number) => {
   files.value = files.value.filter((it) => it.uid !== uid);
 };
-const format = (percentage: number) =>
-  percentage === 100 ? "完成" : `${percentage}%`;
 </script>
 
 <template>

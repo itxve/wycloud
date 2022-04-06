@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     ActionTab: typeof import('./src/components/ActionTab.vue')['default']
+    AudioPlayer: typeof import('./src/components/AudioPlayer.vue')['default']
     CloudList: typeof import('./src/components/CloudList.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -24,7 +25,6 @@ declare module 'vue' {
     ExtLink: typeof import('./src/components/ExtLink.vue')['default']
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
     Login: typeof import('./src/components/Login.vue')['default']
-    Player: typeof import('./src/components/Player.vue')['default']
     UploadSong: typeof import('./src/components/UploadSong.vue')['default']
   }
 }

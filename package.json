@@ -4,14 +4,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preserve": "tsc ./server/*.ts --outDir ./dist/server",
-    "serve": "node ./dist/server",
+    "serve": "node ./node_modules/NeteaseCloudMusicApi/app.js",
     "preview": "vite preview"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
     "aplayer": "^1.10.1",
-    "aplayer-ts": "^1.0.4",
     "axios": "^0.26.1",
     "element-plus": "^2.1.7",
     "meting": "^2.0.1",

@@ -3,7 +3,8 @@ import { ElNotification } from "element-plus";
 
 const instance = axios.create({
   timeout: 50 * 1000,
-  baseURL: "https://netease-cloud-music-api-ebon-psi.vercel.app",
+  baseURL: "http://localhost:3000",
+  // baseURL: "https://netease-cloud-music-api-ebon-psi.vercel.app",
   withCredentials: true,
 });
 
@@ -21,15 +22,3 @@ const responseHandel = async (response: AxiosResponse) => {
 instance.interceptors.response.use(responseHandel);
 
 export default instance;
-
-/**
- * 开发
- */
-const dev = axios.create({
-  timeout: 100 * 1000,
-  baseURL: "/up",
-  withCredentials: true,
-});
-dev.interceptors.response.use(responseHandel);
-
-export { dev };

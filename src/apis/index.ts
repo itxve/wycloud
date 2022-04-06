@@ -1,5 +1,5 @@
-import axios, { dev as devAxios } from "./axios";
-import { User, getUser } from "../utils";
+import axios from "./axios";
+import { User } from "../utils";
 import { Songs } from "../types";
 import { AxiosRequestConfig } from "axios";
 
@@ -38,20 +38,22 @@ export function login(phone: string, password: string) {
 }
 
 export function cloudList() {
-  return axios.get("/user/cloud?t" + Date.now()).then(({ data }) => {
-    return [].concat(data).map((e: any) => {
-      return {
-        album: e.album,
-        artist: e.artist,
-        songName: e.songName,
-        songId: e.songId,
-        albumUrl: e.simpleSong.al.picUrl,
-      };
-    }) as Array<Songs>;
-  });
+  return axios
+    .get(`/user/cloud${resolveParams({ t: Date.now() })}`)
+    .then(({ data }) => {
+      return [].concat(data).map((e: any) => {
+        return {
+          album: e.album,
+          artist: e.artist,
+          songName: e.songName,
+          songId: e.songId,
+          albumUrl: e.simpleSong.al.picUrl,
+        };
+      }) as Array<Songs>;
+    });
 }
 
-export function cloudDetail(songId: string) {
+export function songUrl(songId: string) {
   return axios
     .post(`/song/url${resolveParams({ id: songId })}`)
     .then(({ data }) => {
@@ -76,15 +78,12 @@ export function cloudDel(songId: string) {
 
 export function upload(
   data: FormData,
-  dev: boolean,
   onUploadProgress?: AxiosRequestConfig["onUploadProgress"]
 ) {
-  const realAxios = dev ? devAxios : axios;
-  const u = getUser()!;
-  return realAxios.post(`/cloud`, data, {
+  const realAxios = axios;
+  return realAxios.post(`/cloud${resolveParams({ t: Date.now() })}`, data, {
     headers: {
       "Content-Type": "multipart/form-data",
-      CK: u.cookie,
     },
     onUploadProgress,
   });
@@ -132,4 +131,27 @@ export function accountInfo() {
       userId: profile.userId,
     } as User;
   });
+}
+
+export function lyric(songId: string) {
+  return axios
+    .get(`/lyric${resolveParams({ id: songId })}`)
+    .then((data: any) => {
+      return {
+        lyric: data?.lrc?.lyric,
+      };
+    });
+}
+
+export function songDetail(songId: string) {
+  return axios
+    .get(`/song/detail${resolveParams({ ids: songId })}`)
+    .then((data: any) => {
+      const so = data.songs[0];
+      return {
+        name: so.name,
+        cover: so.al.picUrl,
+        artist: so.pc.ar,
+      } as { name: string; cover: string; artist: string };
+    });
 }

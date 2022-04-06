@@ -26,13 +26,6 @@ export default defineConfig({
 
   server: {
     port: 8000,
-    proxy: {
-      "/up": {
-        target: "http://localhost:3100",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/up/, ""),
-      },
-    },
   },
   build: {
     minify: true,

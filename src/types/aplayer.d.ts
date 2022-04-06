@@ -1,9 +1,8 @@
-// GlobalComponents for Volar
-
 declare module "aplayer" {
   type FullScreenType = "web" | "browser";
 
   export class Audio {
+    songId: string;
     name: string;
     url: string;
     artist?: string;
@@ -27,6 +26,7 @@ declare module "aplayer" {
     mutex?: boolean;
     listFolded?: boolean;
     listMaxHeight?: String;
+    //1:in js,2:in html,3 in file
     lrcType?: number;
     audio?: any;
     storageName?: string;
@@ -86,8 +86,7 @@ declare module "aplayer" {
       add(audios: Array<Audio> | Audio): void;
       remove(index: number): void;
       switch(index: number): void;
+      audios: Array<Audio>;
     };
   }
 }
-
-export as namespace aplayer;

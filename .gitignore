@@ -25,4 +25,4 @@ dist-ssr
 
 .vercel
 .history
-.lock
+*.lock
