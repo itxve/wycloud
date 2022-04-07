@@ -11,6 +11,13 @@ yarn serve
 yarn dev
 ```
 
+
+## 功能
+
+- [x] 扫码登录、手机号登陆
+- [x] 云盘上传
+
+
 ## 鸣谢
 
 [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
