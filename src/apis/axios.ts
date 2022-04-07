@@ -3,8 +3,9 @@ import { ElNotification } from "element-plus";
 
 const instance = axios.create({
   timeout: 50 * 1000,
-  baseURL: "http://localhost:3000",
-  // baseURL: "https://netease-cloud-music-api-ebon-psi.vercel.app",
+  baseURL: import.meta.env.DEV
+    ? "http://localhost:3000"
+    : "https://netease-cloud-music-api-ebon-psi.vercel.app",
   withCredentials: true,
 });
 
