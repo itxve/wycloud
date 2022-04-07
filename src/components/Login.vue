@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { login } from "@/apis";
 import useLogin from "@/hooks/useLogin";
 import useQr from "@/hooks/useQr";

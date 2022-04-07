@@ -10,15 +10,17 @@ const instance = axios.create({
 });
 
 const responseHandel = async (response: AxiosResponse) => {
-  console.log("response.status ", response.status);
   if (response.status == 200) {
-  } else if ([404, 500].includes(response.status)) {
-    ElNotification.error({
-      message: response.data,
-      offset: 100,
-    });
+    if ([404, 400, 500, 502].includes(response.data.code)) {
+      ElNotification.error({
+        message: response.data.msg,
+        offset: 100,
+      });
+      return;
+    } else {
+      return response.data;
+    }
   }
-  return response.data;
 };
 instance.interceptors.response.use(responseHandel);
 

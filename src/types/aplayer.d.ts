@@ -55,7 +55,7 @@ declare module "aplayer" {
 
     toggle(): void;
 
-    on(event: string, handler: () => void): void;
+    on(event: string, handler: (data: any) => void): void;
 
     volume(percentage: number, nostorage: boolean, nonotice: boolean): void;
 

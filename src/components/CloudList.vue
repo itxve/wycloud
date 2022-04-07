@@ -1,9 +1,6 @@
 <template>
   <meting-js id="1447279983" server="netease" type="song"> </meting-js>
   <div class="contianer" style="width: 90vw">
-    <div class="audio">
-      <el-button @click="() => fetchSongs()">刷新</el-button>
-    </div>
     <el-table
       v-loading="listLoading"
       :data="songs"
@@ -47,6 +44,7 @@
 <script lang="ts">
 import { onMounted, ref, defineExpose, inject, Ref } from "vue";
 import { cloudList, cloudDel } from "@/apis";
+
 import type { AudioPlayerExpose } from "@/components/AudioPlayer.vue";
 import { Songs } from "@/types";
 export type CloudList = {

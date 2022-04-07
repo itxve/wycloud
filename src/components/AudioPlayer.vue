@@ -2,10 +2,10 @@
   <div id="audio"></div>
 </template>
 
-// https://aplayer.js.org/#/zh-Hans/
 <script lang="ts">
+// https://aplayer.js.org/#/zh-Hans/
 import "aplayer/dist/APlayer.min.css";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import usePlayer from "@/hooks/usePlayer";
 import { defineExpose } from "vue";
 export type AudioPlayerExpose = {
@@ -16,7 +16,9 @@ export type AudioPlayerExpose = {
 <script setup lang="ts">
 import { songUrl, songDetail, lyric } from "@/apis";
 import { ElMessage } from "element-plus";
+import { Audio } from "aplayer";
 const { registerPlayer, addSong, switchSong, getList } = usePlayer();
+const currentRef = ref<Audio>();
 
 onMounted(() => {
   registerPlayer({
@@ -36,7 +38,7 @@ const play = async (songId: string) => {
       return s.songId === songId;
     })
   ) {
-    ElMessage.info("播放列表");
+    ElMessage.info("已在播放列表");
     return;
   }
   addSong({
@@ -48,7 +50,12 @@ const play = async (songId: string) => {
     lrc: lyc.lyric,
   });
   //播放新添加的
-  switchSong(getList().length - 1);
+  const index = getList().length - 1;
+  switchSong(index);
+  //设置当前歌词的颜色
+  currentRef.value = getList()[index];
+
+  console.log("currentRef?.theme", currentRef.value);
 };
 
 defineExpose({
@@ -56,4 +63,9 @@ defineExpose({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+#audio :deep(.aplayer-lrc-current) {
+  color: v-bind("currentRef?.theme");
+  font-size: 14px;
+}
+</style>

@@ -23,7 +23,6 @@ export default defineConfig({
     }),
     ElementPlus(),
   ],
-
   server: {
     port: 8000,
   },

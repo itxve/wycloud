@@ -5,9 +5,7 @@ import type { UploadProps } from "element-plus";
 import { upload } from "@/apis";
 import { UploadFilled } from "@element-plus/icons-vue";
 import { LocalUpload } from "@/types";
-</script>
-
-<script setup lang="ts">
+import useQueue from "@/hooks/useQueue";
 const customColors = [
   { color: "#f56c6c", percentage: 20 },
   { color: "#e6a23c", percentage: 40 },
@@ -15,38 +13,45 @@ const customColors = [
   { color: "#1989fa", percentage: 80 },
   { color: "#49ac4d", percentage: 100 },
 ];
+</script>
+
+<script setup lang="ts">
 const isDev = computed(() => import.meta.env.DEV);
+const { addTask } = useQueue();
 const files = ref<Array<LocalUpload>>([]);
 const customUpload: UploadProps["httpRequest"] = ({ file }) => {
   const { uid, name } = file as any;
   files.value.push({ uid, name, percent: 0 });
-  return new Promise(async (s, r) => {
-    const formData = new FormData();
-    formData.append("songFile", file);
-    upload(formData, (evt) => {
-      let num = ((evt.loaded / evt.total) * 100) | 0;
-      //更改进度
-      files.value.some((it) => {
-        if (it.uid === uid) {
-          it.percent = num;
-          return true;
-        }
-        return false;
-      });
-    })
-      .then((res: any) => {
-        // //更改进度
-        files.value.some((it) => {
-          if (it.uid === uid) {
-            it.result = "上传成功";
-            return true;
-          }
-          return false;
-        });
+  addTask(
+    () =>
+      new Promise(async (s, _r) => {
+        const formData = new FormData();
+        formData.append("songFile", file);
+        upload(formData, (evt) => {
+          let num = ((evt.loaded / evt.total) * 100) | 0;
+          //更改进度
+          files.value.some((it) => {
+            if (it.uid === uid) {
+              it.percent = num;
+              return true;
+            }
+            return false;
+          });
+        })
+          .then((res: any) => {
+            // //更改进度
+            files.value.some((it) => {
+              if (it.uid === uid) {
+                it.result = "上传成功";
+                return true;
+              }
+              return false;
+            });
+          })
+          .then(s);
       })
-      .then(s)
-      .catch(r);
-  });
+  );
+  return Promise.resolve();
 };
 const delSong = (uid: number) => {
   files.value = files.value.filter((it) => it.uid !== uid);
