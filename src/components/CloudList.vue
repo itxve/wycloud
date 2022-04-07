@@ -1,5 +1,4 @@
 <template>
-  <meting-js id="1447279983" server="netease" type="song"> </meting-js>
   <div class="contianer" style="width: 90vw">
     <el-table
       v-loading="listLoading"
@@ -42,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { onMounted, ref, defineExpose, inject, Ref } from "vue";
+import { onMounted, ref, defineExpose, inject, Ref, watchEffect } from "vue";
 import { cloudList, cloudDel } from "@/apis";
 
 import type { AudioPlayerExpose } from "@/components/AudioPlayer.vue";

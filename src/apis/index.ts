@@ -155,3 +155,9 @@ export function songDetail(songId: string) {
       } as { name: string; cover: string; artist: string };
     });
 }
+
+export function logout() {
+  return axios.get(`/logout`).then((data: any) => {
+    return data;
+  });
+}

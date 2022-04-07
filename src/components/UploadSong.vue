@@ -60,7 +60,7 @@ const delSong = (uid: number) => {
 
 <template>
   <div class="contianer" style="width: 90vw">
-    <ExtLink text="解锁付费音乐" href="https://demo.unlock-music.dev/" />
+    <!-- <ExtLink text="解锁付费音乐" href="https://demo.unlock-music.dev/" /> -->
     <div>
       <el-upload
         action=""
@@ -77,7 +77,9 @@ const delSong = (uid: number) => {
         </template>
       </el-upload>
     </div>
-    <div v-if="!isDev">线上,vercel有传输限制</div>
+    <div v-if="!isDev" class="pro-vercel">
+      vercel接口body传输限制5M以内，请使用本地上传
+    </div>
     <div>
       <el-table :data="files" style="width: 100%" key="songId" :height="500">
         <el-table-column prop="name" label="歌曲" />
@@ -110,5 +112,8 @@ const delSong = (uid: number) => {
   display: flex;
   flex-wrap: wrap;
   position: relative;
+}
+.pro-vercel {
+  font-size: 18px;
 }
 </style>

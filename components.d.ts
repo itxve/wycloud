@@ -14,7 +14,6 @@ declare module 'vue' {
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
-    ElLink: typeof import('element-plus/es')['ElLink']
     ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
     ElProgress: typeof import('element-plus/es')['ElProgress']
     ElTable: typeof import('element-plus/es')['ElTable']
@@ -26,6 +25,7 @@ declare module 'vue' {
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
     Login: typeof import('./src/components/Login.vue')['default']
     UploadSong: typeof import('./src/components/UploadSong.vue')['default']
+    UserAvatar: typeof import('./src/components/UserAvatar.vue')['default']
   }
 }
 

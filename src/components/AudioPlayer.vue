@@ -5,7 +5,7 @@
 <script lang="ts">
 // https://aplayer.js.org/#/zh-Hans/
 import "aplayer/dist/APlayer.min.css";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, Ref } from "vue";
 import usePlayer from "@/hooks/usePlayer";
 import { defineExpose } from "vue";
 export type AudioPlayerExpose = {
@@ -29,33 +29,35 @@ onMounted(() => {
   });
 });
 const play = async (songId: string) => {
-  const url = await songUrl(songId);
-  const del = await songDetail(songId);
-  const lyc = await lyric(songId);
-  if (
-    ~getList().findIndex((s) => {
-      console.log(s);
-      return s.songId === songId;
-    })
-  ) {
-    ElMessage.info("已在播放列表");
-    return;
+  try {
+    const url = await songUrl(songId);
+    const del = await songDetail(songId);
+    const lyc = await lyric(songId);
+    if (
+      ~getList().findIndex((s) => {
+        console.log(s);
+        return s.songId === songId;
+      })
+    ) {
+      ElMessage.info("已在播放列表");
+      return;
+    }
+    addSong({
+      songId,
+      name: del.name,
+      url,
+      artist: del.artist,
+      cover: del.cover,
+      lrc: lyc.lyric,
+    });
+    //播放新添加的
+    const index = getList().length - 1;
+    switchSong(index);
+    //设置当前歌词的颜色
+    currentRef.value = getList()[index];
+  } catch (error) {
+  } finally {
   }
-  addSong({
-    songId,
-    name: del.name,
-    url,
-    artist: del.artist,
-    cover: del.cover,
-    lrc: lyc.lyric,
-  });
-  //播放新添加的
-  const index = getList().length - 1;
-  switchSong(index);
-  //设置当前歌词的颜色
-  currentRef.value = getList()[index];
-
-  console.log("currentRef?.theme", currentRef.value);
 };
 
 defineExpose({

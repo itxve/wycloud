@@ -1,10 +1,13 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import { loginQrKey, loginQrCreate, loginQrCheck, accountInfo } from "@/apis";
-type State = {
+type State = Partial<{
   message: string;
   cookie: string;
   express: Boolean;
-};
+  code: number;
+  nickname: string;
+  avatarUrl: string;
+}>;
 import useLogin from "@/hooks/useLogin";
 export default function useQr() {
   const { user, setUser } = useLogin();
@@ -26,13 +29,13 @@ export default function useQr() {
         const state = data as State;
         if (state.cookie) {
           accountInfo().then((res) => {
-            setUser(Object.assign(user.value!, res, { cookie: state.cookie }));
+            setUser(
+              Object.assign(user.value || {}, res, { cookie: state.cookie })
+            );
             clearInterval(qrInterval.value);
           });
         }
-        data.express = data.code === 800;
-        if (data.express) {
-          data.message = "二维码不存在或过期，请刷新";
+        if (data.code === 800) {
           qrState.value = data as State;
           clearInterval(qrInterval.value);
         } else {

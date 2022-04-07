@@ -4,6 +4,7 @@ import { login } from "@/apis";
 import useLogin from "@/hooks/useLogin";
 import useQr from "@/hooks/useQr";
 import { Loading, RefreshLeft } from "@element-plus/icons-vue";
+import UserAvatar from "@/components/UserAvatar.vue";
 const phone = ref("");
 const password = ref("");
 const { setUser } = useLogin();
@@ -18,11 +19,7 @@ const onLogin = () => {
 const loadNewQr = () => {
   getImg();
   qr.value = "";
-  state.value = {
-    message: "",
-    cookie: "",
-    express: false,
-  };
+  state.value = {};
 };
 </script>
 
@@ -43,10 +40,16 @@ const loadNewQr = () => {
             <el-icon
               :size="30"
               @click="() => loadNewQr()"
-              v-if="state?.express"
+              v-if="state?.code === 800"
               class="qr-refresh"
               ><RefreshLeft
             /></el-icon>
+            <div v-if="state?.code === 802" class="qr-refresh">
+              <UserAvatar
+                :nickname="state?.nickname"
+                :avatar-url="state?.avatarUrl"
+              />
+            </div>
           </div>
           <span style="margin-top: 15px">{{ state?.message }}</span>
         </div>
