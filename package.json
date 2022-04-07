@@ -12,7 +12,6 @@
     "aplayer": "^1.10.1",
     "axios": "^0.26.1",
     "element-plus": "^2.1.7",
-    "meting": "^2.0.1",
     "vue": "^3.2.31"
   },
   "devDependencies": {
