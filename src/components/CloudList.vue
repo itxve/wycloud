@@ -23,10 +23,11 @@
       <el-table-column prop="songName" label="歌曲" />
       <el-table-column label="操作">
         <template #default="{ row }">
+          <el-button @click="playMusic(row.songId)">
+            播放 <el-icon class="el-icon--right"><arrow-down /></el-icon
+          ></el-button>
           <el-dropdown>
-            <el-button @click="playMusic(row.songId)">
-              播放 <el-icon class="el-icon--right"><arrow-down /></el-icon
-            ></el-button>
+            <el-button>操作列表</el-button>
             <el-popconfirm
               confirm-button-text="是的"
               cancel-button-text="不了"
