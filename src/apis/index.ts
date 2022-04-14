@@ -1,5 +1,5 @@
 import axios from "./axios";
-import { User } from "@/utils";
+import { User } from "@/types";
 import { Songs, CorrectSongs } from "@/types";
 import useLogin from "@/hooks/useLogin";
 import { AxiosRequestConfig } from "axios";
