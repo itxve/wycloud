@@ -1,3 +1,4 @@
+import { Audio } from "aplayer";
 export type Songs = {
   album: string;
   artist: string;
@@ -7,6 +8,16 @@ export type Songs = {
   playUrl?: string;
 };
 
+export type CorrectSongs = Partial<{
+  name: string;
+  songId: string;
+  artist: string;
+  album: {
+    name?: string;
+    picUrl?: string;
+  };
+}>;
+
 export type LocalUpload = {
   uid: number;
   name: string;
@@ -14,3 +25,19 @@ export type LocalUpload = {
   result?: string;
 };
 
+export type User =
+  | {
+      avatarUrl: string;
+      nickname: string;
+      //cookie :用于本地文件上传
+      cookie: string;
+      backgroundUrl: string;
+      signature: string;
+      userId: number;
+    }
+  | undefined;
+
+export type PlayerStore = {
+  [key: string]: any;
+  audios: Array<Audio>;
+};

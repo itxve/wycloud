@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { login } from "@/apis";
 import useLogin from "@/hooks/useLogin";
 import useQr from "@/hooks/useQr";
-import { Loading, RefreshLeft } from "@element-plus/icons-vue";
+import { Loading } from "@element-plus/icons-vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 const phone = ref("");
 const password = ref("");
@@ -27,31 +27,38 @@ const loadNewQr = () => {
   <div class="container">
     <el-tabs v-model="activeName" class="demo-tabs">
       <el-tab-pane label="二维码登陆" name="qr">
-        <div class="qr">
+        <div class="flex-center">
           <span>请使用网易云客户端扫描</span>
           <div class="qr-img" style="margin-top: 15px">
-            <el-image :src="qr">
+            <el-image v-if="state?.code !== 802" :src="qr">
               <template #error>
                 <div class="qr-slot">
                   <el-icon class="is-loading"><Loading animationend /></el-icon>
                 </div>
               </template>
             </el-image>
-            <el-icon
-              :size="30"
-              @click="() => loadNewQr()"
-              v-if="state?.code === 800"
-              class="qr-refresh"
-              ><RefreshLeft
-            /></el-icon>
-            <div v-if="state?.code === 802" class="qr-refresh">
+            <div v-if="state?.code === 800" class="qr-main qr-opacity">
+              <div class="flex-center">
+                <span style="font-size: 14px; font-weight: 800">{{
+                  state?.message
+                }}</span>
+                <el-button
+                  type="primary"
+                  size="small"
+                  @click="() => loadNewQr()"
+                >
+                  刷新二维码
+                </el-button>
+              </div>
+            </div>
+            <div v-if="state?.code === 802" class="qr-main flex-center u-head">
               <UserAvatar
                 :nickname="state?.nickname"
                 :avatar-url="state?.avatarUrl"
               />
+              <span>请在手机上确认</span>
             </div>
           </div>
-          <span style="margin-top: 15px">{{ state?.message }}</span>
         </div>
       </el-tab-pane>
       <el-tab-pane label="账号密码登陆" name="ps">
@@ -77,10 +84,12 @@ const loadNewQr = () => {
 </template>
 
 <style scoped>
-.qr {
+.flex-center {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
+
 .container {
   display: flex;
   justify-content: center;
@@ -96,17 +105,23 @@ const loadNewQr = () => {
   position: relative;
 }
 
-.qr-refresh {
-  background-color: aliceblue;
-  opacity: 0.75;
+.qr-opacity {
+  background: rgba(255, 255, 255, 0.8);
+}
+.qr-main {
   position: absolute;
   top: 0;
-  width: 194px;
-  height: 194px;
+  flex-direction: column;
+  width: 180px;
+  height: 180px;
   display: flex;
   z-index: 100;
   cursor: pointer;
   justify-content: center;
   align-items: center;
+}
+
+.u-head {
+  position: relative;
 }
 </style>

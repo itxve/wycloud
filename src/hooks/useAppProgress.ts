@@ -10,8 +10,5 @@ export default function useAppProgress() {
     }
   };
 
-  watchEffect(() => {
-    console.log("appLoading", appLoading.value);
-  });
   return { addLoading, endLoading, loading: appLoading };
 }

@@ -3,8 +3,8 @@ declare module "aplayer" {
 
   export class Audio {
     songId: string;
-    name: string;
-    url: string;
+    name?: string;
+    url?: string;
     artist?: string;
     cover?: string;
     lrc?: string;

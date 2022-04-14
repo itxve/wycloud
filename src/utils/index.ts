@@ -1,26 +1,24 @@
-export type User =
-  | {
-      avatarUrl: string;
-      nickname: string;
-      //cookie :用于本地文件上传
-      cookie: string;
-      backgroundUrl: string;
-      signature: string;
-      userId: number;
-    }
-  | undefined;
+import { User, PlayerStore } from "@/types";
+import { Audio } from "aplayer";
 
-export type LoginUser = {};
-const uKey = "user";
+import { storeIt, getIt, removeIt } from "./store";
 
-export function storeUser(user: User) {
-  localStorage.setItem(uKey, JSON.stringify(user));
-}
+const userStore = {
+  key: "user",
+  save: (user: User) => {
+    storeIt(userStore.key, user);
+  },
+  get: (): User => getIt(userStore.key),
+  clear: () => removeIt(userStore.key),
+};
 
-export function getUser(): User {
-  return JSON.parse(localStorage.getItem(uKey) ?? "{}") as User;
-}
+const playerStore = (key: string) => {
+  return {
+    save: (audios: Audio) => {
+      storeIt(key, audios);
+    },
+    get: (): PlayerStore => getIt(key),
+  };
+};
 
-export function clearUser() {
-  return localStorage.removeItem(uKey);
-}
+export { userStore, playerStore };

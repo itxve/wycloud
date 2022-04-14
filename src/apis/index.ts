@@ -1,6 +1,7 @@
 import axios from "./axios";
-import { User } from "../utils";
-import { Songs } from "../types";
+import { User } from "@/utils";
+import { Songs, CorrectSongs } from "@/types";
+import useLogin from "@/hooks/useLogin";
 import { AxiosRequestConfig } from "axios";
 
 function resolveParams(params: Record<string, any>) {
@@ -160,4 +161,48 @@ export function logout() {
   return axios.get(`/logout`).then((data: any) => {
     return data;
   });
+}
+/**
+ * 纠错
+ * @param ysid  云盘Id
+ * @param asid 正确信息Id
+ * @returns
+ */
+export function cloudMatch(ysid: string, asid: string) {
+  const { user } = useLogin();
+  return axios
+    .get(
+      `/cloud/match${resolveParams({
+        sid: ysid,
+        uid: user.value?.userId,
+        asid,
+      })}`
+    )
+    .then((data: any) => {
+      return data;
+    });
+}
+
+export function searchList(keywords: string) {
+  return axios
+    .get(
+      `/cloudsearch${resolveParams({
+        t: Date.now(),
+        keywords,
+        limit: 100,
+      })}`
+    )
+    .then((data: any) => {
+      return data.result.songs.map((s: any) => {
+        return {
+          name: s.name,
+          songId: s.id,
+          artist: s?.ar.map((e: any) => e.name).join(" / "),
+          album: {
+            name: s?.al.name,
+            picUrl: s?.al.picUrl,
+          },
+        };
+      }) as Array<CorrectSongs>;
+    });
 }

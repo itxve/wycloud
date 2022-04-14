@@ -21,3 +21,5 @@ withDefaults(
     {{ nickname }}
   </span>
 </template>
+
+<style scoped></style>
