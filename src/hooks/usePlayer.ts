@@ -6,7 +6,6 @@ import { playerStore } from "@/utils";
 
 export default function usePlayer(store = "my-aplayer") {
   const pStore = playerStore(store);
-
   console.log("storeKey", store);
   const { getImageColor } = useImageColor();
   const player = ref<APlayer>();
@@ -18,11 +17,9 @@ export default function usePlayer(store = "my-aplayer") {
       });
       console.log("register Player ....");
     }
-
     //加载本地缓存
     const localPlayer = pStore.get();
     localPlayer.audios?.forEach((audio) => addSong(audio));
-
     player.value.on("listswitch", async (data) => {
       const song = getList()[data.index];
       //加载歌曲信息
@@ -49,6 +46,9 @@ export default function usePlayer(store = "my-aplayer") {
       });
     });
   };
+
+  // player.value.on("", () => {});
+
   const playSong = () => {
     player.value!.play();
   };
@@ -56,10 +56,10 @@ export default function usePlayer(store = "my-aplayer") {
     player.value!.pause();
   };
   const switchSong = (index: number) => {
-    player.value!.list.switch(index);
+    player.value?.switchAudio(index);
   };
   const addSong = (audios: Array<Audio> | Audio) => {
-    player.value!.list.add(audios);
+    player.value?.addAudio(audios);
   };
   const getList = () => {
     return player.value!.list.audios;

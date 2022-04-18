@@ -49,6 +49,17 @@ declare module "aplayer" {
 
     play(): void;
 
+    // abandoned
+    switchAudio(index: number);
+
+    // abandoned
+    addAudio(audio: Array<Audio> | Audio);
+
+    // abandoned
+    removeAudio(index: number) {
+      this.list.remove(index);
+    }
+
     pause(): void;
 
     seek(time: number): void;

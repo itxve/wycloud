@@ -26,4 +26,4 @@ yarn dev
 ## 仅供学习交流之用，请勿用于非法和商业用途
 
 ## License
-[The MIT License (MIT)](https://github.com/Binaryify/NeteaseCloudMusicApi/blob/master/LICENSE)
+[The MIT License (MIT)](https://github.com/itxve/wycloud/blob/master/LICENSE)
