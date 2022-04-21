@@ -4,13 +4,15 @@ import Entry from "@/pages/entry.vue";
 import useAppProgress from "@/hooks/useAppProgress";
 import AudioPlayer, { AudioPlayerExpose } from "@/components/AudioPlayer.vue";
 const audioPlayerRef = ref<AudioPlayerExpose>();
+import MetaData from "@/pages/MetaData.vue";
 //注入一个全局播放的方法 好像可以直接用hook里面用个全局的ref就好了
 provide("play", audioPlayerRef);
 const { loading } = useAppProgress();
 </script>
 
 <template>
-  <Entry />
+  <MetaData />
+  <!-- <Entry />
   <AudioPlayer ref="audioPlayerRef" />
   <el-progress
     class="progress"
@@ -18,7 +20,7 @@ const { loading } = useAppProgress();
     :indeterminate="true"
     :percentage="50"
     :format="() => ''"
-  />
+  /> -->
 </template>
 
 <style>
