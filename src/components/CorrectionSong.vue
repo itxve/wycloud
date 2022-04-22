@@ -92,6 +92,7 @@ const toggle = () => {
 };
 const close = () => {
   visible.value = false;
+  checkRef.value = [];
   songs.value = [];
 };
 

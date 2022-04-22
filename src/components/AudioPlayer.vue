@@ -15,9 +15,13 @@ export type AudioPlayerExpose = {
 
 <script setup lang="ts">
 import { songUrl, songDetail, lyric } from "@/apis";
-import { Audio } from "aplayer";
-const { registerPlayer, addSong, switchSong, getList } = usePlayer();
-const currentRef = ref<Audio>();
+const {
+  registerPlayer,
+  addSong,
+  switchSong,
+  getList,
+  currentRef,
+} = usePlayer();
 
 onMounted(() => {
   registerPlayer({
@@ -35,7 +39,6 @@ const play = async (songId: string) => {
     if (songId === currentRef.value?.songId) {
       return;
     }
-
     let index = 0;
     const songIndex = getList().findIndex((s) => {
       return s.songId === songId;
@@ -56,8 +59,6 @@ const play = async (songId: string) => {
       index = getList().length - 1;
     }
     switchSong(index);
-    //设置当前歌词的颜色
-    currentRef.value = getList()[index];
   } catch (error) {
   } finally {
   }

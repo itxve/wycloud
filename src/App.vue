@@ -11,8 +11,8 @@ const { loading } = useAppProgress();
 </script>
 
 <template>
-  <MetaData />
-  <!-- <Entry />
+  <!-- <MetaData /> -->
+  <Entry />
   <AudioPlayer ref="audioPlayerRef" />
   <el-progress
     class="progress"
@@ -20,7 +20,7 @@ const { loading } = useAppProgress();
     :indeterminate="true"
     :percentage="50"
     :format="() => ''"
-  /> -->
+  />
 </template>
 
 <style>

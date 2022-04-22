@@ -1,4 +1,4 @@
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 const appLoading = ref(0);
 export default function useAppProgress() {
   const addLoading = () => {
