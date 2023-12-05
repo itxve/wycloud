@@ -53,7 +53,14 @@
         </template>
       </el-table-column>
     </el-table>
-
+    <el-pagination
+      style="justify-content: flex-end"
+      background
+      :page-size="page.limit"
+      @current-change="currentChange"
+      layout="prev, pager, next"
+      :total="page.total"
+    />
     <CorrectionSong
       ref="correctionRef"
       :album="rowRef?.album"
@@ -79,10 +86,15 @@ export type CloudList = {
 
 <script setup lang="ts">
 const songs = ref<Array<Songs>>();
+const page = ref({ limit: 20, offset: 1, total: 0 });
 const listLoading = ref(false);
 const audioRef = inject<Ref<AudioPlayerExpose>>("play");
 const rowRef = ref();
 const correctionRef = ref();
+const currentChange = (offset: number) => {
+  page.value.offset = offset;
+  fetchSongs();
+};
 
 const open = (row: Songs) => {
   rowRef.value = row;
@@ -91,9 +103,11 @@ const open = (row: Songs) => {
 
 const fetchSongs = () => {
   listLoading.value = true;
-  cloudList()
-    .then((data) => {
+  const offset = (page.value.offset - 1) * page.value.limit;
+  cloudList(page.value.limit, offset)
+    .then(({ count, hasMore, data }) => {
       songs.value = data;
+      page.value.total = count;
     })
     .finally(() => (listLoading.value = false));
 };

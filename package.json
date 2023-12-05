@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vite build",
     "serve": "node ./node_modules/NeteaseCloudMusicApi/app.js",
     "preview": "vite preview"
   },

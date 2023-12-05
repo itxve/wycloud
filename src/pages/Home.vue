@@ -22,7 +22,7 @@ const out = async () => {
       <UserAvatar :nickname="user?.nickname" :avatar-url="user?.avatarUrl" />
       <el-popconfirm
         confirm-button-text="是的"
-        cancel-button-text="我再想想"
+        cancel-button-text="取消"
         title="确认退出登陆吗？"
         @confirm="out"
       >

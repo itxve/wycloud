@@ -1,6 +1,6 @@
 import axios from "./axios";
 import { User } from "@/types";
-import { Songs, CorrectSongs } from "@/types";
+import { Songs, CorrectSongs, PageInfoData } from "@/types";
 import useLogin from "@/hooks/useLogin";
 import { AxiosRequestConfig } from "axios";
 
@@ -38,19 +38,24 @@ export function login(phone: string, password: string) {
     });
 }
 
-export function cloudList() {
+export function cloudList(limit: number = 30, offset: number = 0) {
   return axios
-    .get(`/user/cloud${resolveParams({ t: Date.now() })}`)
-    .then(({ data }) => {
-      return [].concat(data).map((e: any) => {
-        return {
-          album: e.album,
-          artist: e.artist,
-          songName: e.songName,
-          songId: e.songId,
-          albumUrl: e.simpleSong.al?.picUrl,
-        };
-      }) as Array<Songs>;
+    .get(`/user/cloud${resolveParams({ t: Date.now(), limit, offset })}`)
+    .then((res: any) => {
+      const { count, hasMore, data } = res;
+      return {
+        count,
+        hasMore,
+        data: [].concat(data).map((e: any) => {
+          return {
+            album: e.album,
+            artist: e.artist,
+            songName: e.songName,
+            songId: e.songId,
+            albumUrl: e.simpleSong.al?.picUrl,
+          };
+        }) as Array<Songs>,
+      } as PageInfoData<Array<Songs>>;
     });
 }
 

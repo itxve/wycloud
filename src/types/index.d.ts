@@ -41,3 +41,9 @@ export type PlayerStore = {
   [key: string]: any;
   audios: Array<Audio>;
 };
+
+export type PageInfoData<T> = {
+  count: number;
+  hasMore: boolean;
+  data: T;
+};

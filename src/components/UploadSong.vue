@@ -1,6 +1,5 @@
 <script lang="ts">
 import { computed, ref } from "vue";
-import ExtLink from "@/components/ExtLink.vue";
 import type { UploadProps } from "element-plus";
 import { upload } from "@/apis";
 import { UploadFilled } from "@element-plus/icons-vue";
