@@ -48,7 +48,7 @@ export function cloudList() {
           artist: e.artist,
           songName: e.songName,
           songId: e.songId,
-          albumUrl: e.simpleSong.al.picUrl,
+          albumUrl: e.simpleSong.al?.picUrl,
         };
       }) as Array<Songs>;
     });
